@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>maroidOS - 次世代軽量カスタムROM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1bd191',
+                        primaryHover: '#16b37c',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter & Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+        /* Android-style Ripple Effect with semi-transparent black */
+        .ripple-btn {
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+        }
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.15);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        /* Persistent Ripple during long press in semi-transparent black */
+        .ripple-persistent {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.15);
+            transform: scale(4);
+            opacity: 1;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
+                <span class="text-xl font-bold tracking-tight text-[#1bd191]">maroidOS</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#features" onclick="switchPage('home');" class="hover:text-emerald-600 transition-colors">特徴</a>
+                <a href="#devices" onclick="switchPage('home');" class="hover:text-emerald-600 transition-colors">対応端末</a>
+                <button onclick="openReleaseNotes()" class="hover:text-emerald-600 transition-colors text-left bg-transparent border-none cursor-pointer p-0 font-medium text-sm text-slate-600">リリースノート</button>
+                <a href="#community" onclick="switchPage('home');" class="hover:text-emerald-600 transition-colors">コミュニティ</a>
+            </nav>
+            <div>
+                <button onclick="handleNavDownload()" class="ripple-btn bg-[#1bd191] hover:bg-[#16b37c] text-white text-sm font-medium px-5 py-2.5 rounded-[5dp] shadow-sm transition-all duration-200">
+                    ダウンロード
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <div id="view-home" class="page-view">
+            <section class="relative overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32 bg-gradient-to-b from-emerald-50/50 to-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
+                        maroidOS Neo
+                    </h1>
+                    <p class="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 mb-10 leading-relaxed">
+                        maroidOSは、Dcha機能をすべて消去し、<br class="hidden sm:inline">AOSPベースの軽量OSになっています。
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button onclick="handleDownloadPageTransition()" class="ripple-btn w-full sm:w-auto bg-[#1bd191] hover:bg-[#16b37c] text-white font-semibold px-8 py-3.5 rounded-[5dp] shadow-md hover:shadow-lg transition-all duration-200 text-base">
+                            今すぐダウンロード
+                        </button>
+                        <a href="#features" class="ripple-btn w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 font-semibold px-8 py-3.5 rounded-[5dp] border border-slate-200 shadow-sm transition-all duration-200 text-base text-center">
+                            詳細を見る
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-4">maroidOSの特徴</h2>
+                        <p class="text-slate-600 text-base">Dcha機能を排除し、クリーンな動作性を追求しました。</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                        <div class="p-8 rounded-[5dp] bg-slate-50 border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-emerald-100 text-[#1bd191] rounded-[5dp] flex items-center justify-center font-bold text-xl mb-6">🛡️</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">クリーンな環境</h3>
+                            <p class="text-slate-600 leading-relaxed text-sm">Dcha機能や不要なプリインストールアプリを完全排除。純粋なAOSP体験を提供します。</p>
+                        </div>
+                        <div class="p-8 rounded-[5dp] bg-slate-50 border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-emerald-100 text-[#1bd191] rounded-[5dp] flex items-center justify-center font-bold text-xl mb-6">🔋</div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3">省電力設計</h3>
+                            <p class="text-slate-600 leading-relaxed text-sm">バッテリー消費を最小限に抑え、長時間の駆動を実現。発熱も効果的に抑えます。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="devices" class="py-20 bg-slate-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-4">対応端末</h2>
+                        <p class="text-slate-600 text-base">現在サポートされているデバイスの一覧です。</p>
+                    </div>
+                    <div class="max-w-md mx-auto bg-white p-8 rounded-[5dp] border border-slate-200 shadow-sm text-center">
+                        <div class="text-3xl mb-4">📱</div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">チャレンジパッドNeo</h3>
+                        <p class="text-sm text-slate-500 mb-6">最新の安定ビルドが利用可能です。</p>
+                        <button onclick="handleDownloadPageTransition()" class="ripple-btn w-full bg-[#1bd191] hover:bg-[#16b37c] text-white font-medium py-2.5 rounded-[5dp] shadow-sm transition-all">
+                            ダウンロードページへ
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="community" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div class="max-w-2xl mx-auto">
+                        <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-4">コミュニティに参加する</h2>
+                        <p class="text-slate-600 mb-8 text-base">バグ報告や機能要望、他のユーザーとの交流はDiscordサーバーで行っています。</p>
+                        <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="ripple-btn inline-block bg-[#1bd191] hover:bg-[#16b37c] text-white font-semibold px-8 py-3.5 rounded-[5dp] shadow-md transition-all">
+                            Discordに参加する
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="view-download" class="page-view hidden py-12">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-8">
+                    <button onclick="switchPage('home')" class="ripple-btn inline-flex items-center space-x-2 text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-4 py-2 rounded-[5dp] text-sm font-medium shadow-sm transition-all">
+                        <span>← ホームに戻る</span>
+                    </button>
+                </div>
+
+                <div class="mb-10">
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">maroidOS ダウンロード</h1>
+                    <p class="text-slate-600 text-sm sm:text-base">お使いの端末に合わせた最新のビルドを選択してください。ダウンロード前に必ず注意事項をご確認ください。</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Build Card -->
+                    <div class="bg-white p-6 sm:p-8 rounded-[5dp] border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="inline-block bg-emerald-100 text-[#1bd191] text-xs font-semibold px-2.5 py-1 rounded-[5dp] mb-2">LATEST STABLE</div>
+                            <h3 class="text-lg font-bold text-slate-900">maroidOS v1.0.0 for チャレンジパッドNeo</h3>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-1">リリース日: 2026年7月15日 | サイズ: 780MB</p>
+                        </div>
+                        <div>
+                            <button onclick="openReleaseNotes()" class="ripple-btn bg-[#1bd191] hover:bg-[#16b37c] text-white text-sm font-semibold px-6 py-2.5 rounded-[5dp] shadow-sm transition-all whitespace-nowrap">
+                                ダウンロード (ZIP)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            &copy; 2026 maroidOS Project. All rights reserved.
+        </div>
+    </footer>
+
+    <div id="release-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="release-modal-content" class="bg-white w-full max-w-lg mx-4 rounded-[5dp] shadow-2xl border border-slate-200 transform scale-95 transition-transform duration-300 overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">リリースノート & ダウンロード</h3>
+                <button onclick="closeReleaseNotes()" class="ripple-btn text-slate-400 hover:text-slate-600 text-xl font-bold w-8 h-8 rounded-[5dp] flex items-center justify-center bg-slate-100 transition-all">×</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-6 text-sm text-slate-600">
+                <div>
+                    <span class="inline-block bg-emerald-100 text-[#1bd191] text-xs font-semibold px-2 py-0.5 rounded-[5dp] mb-1">v1.0.0</span>
+                    <h4 class="font-bold text-slate-900 text-base">初期リリース (Stable)</h4>
+                    <p class="text-xs text-slate-400 mb-2">2026年7月15日</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>AOSPベースの初期安定版ビルドを公開</li>
+                        <li>Dcha機能を完全に削除し、軽量化を達成</li>
+                        <li>チャレンジパッドNeoに対応</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+                <button onclick="closeReleaseNotes()" class="ripple-btn bg-white border border-slate-300 text-slate-700 text-sm font-medium px-4 py-2 rounded-[5dp] shadow-sm hover:bg-slate-100 transition-all">閉じる</button>
+                <a href="https://github.com/exfat-dev3/maroidOS/releases/download/v1.0.0/maroidOS_v1.0.0.zip" target="_blank" rel="noopener noreferrer" class="ripple-btn bg-[#1bd191] hover:bg-[#16b37c] text-white text-sm font-semibold px-5 py-2.5 rounded-[5dp] shadow-sm transition-all">
+                    ダウンロードする (ZIP)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SPA Page Switching
+        function switchPage(pageId) {
+            const homeView = document.getElementById('view-home');
+            const downloadView = document.getElementById('view-download');
+
+            if (pageId === 'download') {
+                homeView.classList.add('hidden');
+                downloadView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                downloadView.classList.add('hidden');
+                homeView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Navigation Download button with 0.15s delay
+        function handleNavDownload() {
+            setTimeout(() => {
+                switchPage('download');
+            }, 150);
+        }
+
+        // Hero Download page transition with 0.15s delay
+        function handleDownloadPageTransition() {
+            setTimeout(() => {
+                switchPage('download');
+            }, 150);
+        }
+
+        // Release Notes Modal Controls (0.1s delay for closing)
+        function openReleaseNotes() {
+            const modal = document.getElementById('release-modal');
+            const content = document.getElementById('release-modal-content');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeReleaseNotes() {
+            setTimeout(() => {
+                const modal = document.getElementById('release-modal');
+                const content = document.getElementById('release-modal-content');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 100);
+        }
+
+        // Close modal on background click (with 0.1s delay)
+        document.getElementById('release-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'release-modal') {
+                closeReleaseNotes();
+            }
+        });
+
+        // Android Ripple & Long Press Effect Logic (Semi-transparent black ripple)
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.ripple-btn');
+
+            buttons.forEach(button => {
+                let persistentRipple = null;
+                let isLongPress = false;
+                let longPressTimer = null;
+
+                const startAction = (e) => {
+                    const rect = button.getBoundingClientRect();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    const x = clientX - rect.left;
+                    const y = clientY - rect.top;
+
+                    // Normal click ripple animation
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple-effect';
+                    const size = Math.max(rect.width, rect.height) * 2;
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x - size / 2}px`;
+                    ripple.style.top = `${y - size / 2}px`;
+                    button.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+
+                    // Setup long press persistent ripple
+                    isLongPress = false;
+                    longPressTimer = setTimeout(() => {
+                        isLongPress = true;
+                        if (persistentRipple) persistentRipple.remove();
+
+                        persistentRipple = document.createElement('span');
+                        persistentRipple.className = 'ripple-persistent';
+                        persistentRipple.style.width = persistentRipple.style.height = `${size}px`;
+                        persistentRipple.style.left = `${x - size / 2}px`;
+                        persistentRipple.style.top = `${y - size / 2}px`;
+                        button.appendChild(persistentRipple);
+                    }, 400);
+                };
+
+                const endAction = () => {
+                    if (longPressTimer) clearTimeout(longPressTimer);
+
+                    if (persistentRipple) {
+                        persistentRipple.style.transform = 'scale(5)';
+                        persistentRipple.style.opacity = '0';
+                        const currentRipple = persistentRipple;
+                        setTimeout(() => {
+                            currentRipple.remove();
+                        }, 400);
+                        persistentRipple = null;
+                    }
+                };
+
+                button.addEventListener('mousedown', startAction);
+                button.addEventListener('mouseup', endAction);
+                button.addEventListener('mouseleave', endAction);
+
+                button.addEventListener('touchstart', startAction, { passive: true });
+                button.addEventListener('touchend', endAction);
+                button.addEventListener('touchcancel', endAction);
+            });
+        });
+    </script>
+</body>
+</html>
